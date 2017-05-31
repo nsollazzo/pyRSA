@@ -2,7 +2,7 @@
 
 an implementation of RSA algorithm in python
 
-### Built With
+### Dependencies
 
 * [Python 3.x](https://www.python.org/downloads/) - The language used
 * [Flask](http://flask.pocoo.org/) - Python micro web framework
