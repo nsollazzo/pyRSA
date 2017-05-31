@@ -1,0 +1,196 @@
+<!--
+start.py
+@author: Salvatore Giammanco
+@version: 1.0
+@date: March 16th 2017
+-->
+
+<html>
+
+<head>
+
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<style>
+		body {
+			display: flex;
+			min-height: 100vh;
+			flex-direction: column;
+		}
+
+		main {
+			flex: 1 0 auto;
+		}
+	</style>
+</head>
+
+<body>
+	<nav>
+		<div class="nav-wrapper blue darken-1">
+			<a href="#" class="brand-logo center">RSA Key Generator</a>
+			<ul id="nav-mobile" class="left hide-on-med-and-down">
+				<li><a href="/">Home</a></li>
+				<li><a href="/about">About</a></li>
+			</ul>
+		</div>
+	</nav>
+	<br>
+	<div class="container">
+		{% if page == "about" %}
+		<h5 class="center-align">About</h5>
+		<p class="center-align">{{about}}</p>
+
+		{% elif page == "generate" %}
+		<h4 class="center-align">Generated Keys</h4><br>
+		<h5 class="center-align">Step list</h5>
+		<table class="center-align striped centered">
+			<thead>
+				<tr>
+					<th data-field="id">Description</th>
+					<th data-field="name">Formula</th>
+					<th data-field="name">Value</th>
+				</tr>
+			</thead>
+
+			<tr>
+				<td>
+					<b>A</b>
+				</td>
+				<td>
+					<b>Random prime number</b>
+				</td>
+				<td>
+					{{step_list.a}}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<b>B</b>
+				</td>
+				<td>
+					<b>Random prime number</b>
+				</td>
+				<td>
+					{{step_list.b}}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<b>N</b>
+				</td>
+				<td>
+					<b>N = A * B</b>
+				</td>
+				<td>
+					{{step_list.n}}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<b>Z</b>
+				</td>
+				<td>
+					<b>Z = ( A - 1 ) * ( B - 1 )</b>
+				</td>
+				<td>
+					{{step_list.z}}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<b>Public key</b>
+				</td>
+				<td>
+					<b> 1 < Random num < Z</b>
+				</td>
+				<td>
+					{{step_list.pub}}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<b>Private key</b>
+				</td>
+				<td>
+					<b>EGCD Algorithm (Pub, Z)</b>
+				</td>
+				<td>
+					{{step_list.pri}}
+				</td>
+			</tr>
+
+		</table>
+		<br><br>
+		<h5 class="center-align">Encrypt word</h5>
+		<div class="row">
+			<div class="input-field col s6 offset-m3">
+				<i class="material-icons prefix">vpn_key</i>
+				<input id="plain" type="text" class="validate">
+				<label for="icon_prefix">Plain</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center-align">
+				<button id="encrypt" class="waves-effect waves-light btn light-blue darken-3">encrypt</button>
+			</div>
+		</div>
+
+		<br><br>
+		<h5 class="center-align">Decrypt word</h5>
+		<div class="row">
+			<div class="input-field col s6 offset-m3">
+				<i class="material-icons prefix">vpn_key</i>
+				<input id="encrypted" type="text" class="validate">
+				<label for="icon_prefix">Encrypted</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="center-align">
+				<button id="decrypt" class="waves-effect waves-light btn light-blue darken-3">decrypt</button>
+			</div>
+		</div>
+
+
+
+		{% else %}
+		<br><br>
+		<div class="center-align">
+			<a class="waves-effect waves-light btn-large blue darken-1" href="/generate"><i class="material-icons left">vpn_key</i>generate</a>
+		</div>
+		{% endif %}
+	</div>
+	<script type="text/javascript">
+		//modifica descrizione
+		$("#encrypt").click(function() {
+			plain = $("#plain").val();
+			encrypted = $("#encrypted").val();
+			$.post("/encrypt", {
+				plain: plain
+			}).done(function(data) {
+
+				$("#encrypted").val(data);
+
+			});
+		});
+
+		$("#decrypt").click(function() {
+			plain = $("#plain").val();
+			encrypted = $("#encrypted").val();
+			$.post("/decrypt", {
+				encrypted: encrypted
+			}).done(function(data) {
+
+				$("#plain").val(data);
+
+			});
+		});
+	</script>
+</body>
+
+</html>
