@@ -11,8 +11,8 @@ an implementation of RSA algorithm in python
 
 ## Authors
 
-* **Nicholas Sollazzo** - *logic behind pyRSA* - [Sal0hc1n](https://github.com/Sal0hc1n)
-* **Salvatore Giammanco** - *web designer and python developer* - [FirEc00l](https://github.com/FirEc00l)
+* **Nicholas Sollazzo** - *python developer* - [Sal0hc1n](https://github.com/Sal0hc1n)
+* **Salvatore Giammanco** - *web designer* - [FirEc00l](https://github.com/FirEc00l)
 
 ## License
 
